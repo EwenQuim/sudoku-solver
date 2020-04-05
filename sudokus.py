@@ -1,7 +1,12 @@
 import numpy as np
 
 # Sudokus to solve.
-# It used
+# Actually, it solves arrays,
+# but the new version is more user-friendly:
+# a parser is now included so you juste have to
+# edit to_solve.txt file
+# You can still use solve(array)
+# See README.md
 
 # Template
 S0 = np.array( [[0,0,0,  0,0,0,  0,0,0],
