@@ -1,9 +1,10 @@
 import numpy as np
 
-# Sudokus to solve. The Program solves S by default
+# Sudokus to solve.
+# It used
 
 # Template
-S0 = np.array(  [[0,0,0,  0,0,0,  0,0,0],
+S0 = np.array( [[0,0,0,  0,0,0,  0,0,0],
                 [0,0,0,  0,0,0,  0,0,0],
                 [0,0,0,  0,0,0,  0,0,0],
                 

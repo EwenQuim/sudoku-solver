@@ -19,7 +19,7 @@ def solve_and_display(path="to_solve.txt", display_speed = True):
     to_solve.close() 
 
     #Parsing
-    time_message = "Sudoku solving speed:\n"
+    time_message = "\nSudoku solving speed:\n"
     if type(S) is str:
         timestamp_unparsed=time.clock()
         S = parse(S)
@@ -37,8 +37,9 @@ def solve_and_display(path="to_solve.txt", display_speed = True):
 
     # Displaying
     time_message+="Solving... {} seconds\n".format(time_solving)
-    if display_speed: print(time_message)
     print(S) # Solved!
+    if display_speed: print(time_message)
+    print("Find the answer in the solved.txt file or above!")
 
     # Writing
     solved  = open("solved.txt", "w")
