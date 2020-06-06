@@ -60,7 +60,6 @@ def solve_and_display(path="sudoku.txt", display_speed = True):
 if __name__ == '__main__':
     if len(sys.argv) > 1:
         for path in (sys.argv[1:]):
-            path = "/mnt/data/"+path
             print("\n=== Reading file "+path+" ===")
             try:
                 solve_and_display(path)
