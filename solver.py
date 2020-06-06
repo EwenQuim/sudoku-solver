@@ -61,10 +61,7 @@ def is_in_bloc(S, i, j, n):
 # Check if possible to fill case (i, j) with n (lines + rows + block)
 def is_available(S, i, j, n):
     for k in range(9):
-        if S[i][k] == n and k != j:
-            return False
-    for k in range(9):
-        if S[k][j] == n and k != i:
+        if (S[i][k] == n and k != j) or (S[k][j] == n and k != i):
             return False
     return is_in_bloc(S, i, j, n)
 
