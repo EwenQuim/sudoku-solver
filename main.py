@@ -60,13 +60,11 @@ def solve_and_display(path="sudoku.txt", display_speed = True):
 if __name__ == '__main__':
     if len(sys.argv) > 1:
         for path in (sys.argv[1:]):
+            path = "/mnt/data/"+path
             print("\n=== Reading file "+path+" ===")
             try:
                 solve_and_display(path)
             except: 
-                print("File isn't a sudoku")
+                print("File doesn't exist or isn't a sudoku")
     else:
-        try:
-            solve_and_display("sudoku.txt")
-        except: 
-                print("File isn't a sudoku")
+        print("No sudoku given")

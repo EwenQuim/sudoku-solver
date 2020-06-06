@@ -8,9 +8,11 @@
 ## Several args
 
 ## A whole folder
+
 $(ls)
 
 ## From command line
+
 echo "...546..9
 .2......7
 ..39....4
@@ -20,3 +22,7 @@ echo "...546..9
 .56..8...
 .1..39...
 ......8.6" > test && python3 main.py test
+
+## From docker build
+
+docker run --rm -v "$(pwd)/data:/mnt/data" sudoku-solver:latest sudoku4.txt
