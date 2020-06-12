@@ -1,5 +1,7 @@
 # Sudoku Solver
 
+[![CodeFactor](https://www.codefactor.io/repository/github/ewenquim/sudoku-solver/badge)](https://www.codefactor.io/repository/github/ewenquim/sudoku-solver)
+
 ## How to use
 
 - Download and unzip the project
