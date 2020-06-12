@@ -23,13 +23,10 @@ def solve_and_display(path="sudoku.txt", display_speed = True):
 
     #Parsing
     time_message = "\nSudoku solving speed:\n"
-    if type(S) is str:
-        S = parse(S)
-        timestamp_parsed=time.time()
-        time_parsing = int((timestamp_parsed-timestamp_unparsed)*10000)/10000
-        time_message+="Parsing... {} seconds\n".format(time_parsing)
-    else:
-        time_message
+    S = parse(S)
+    timestamp_parsed=time.time()
+    time_parsing = int((timestamp_parsed-timestamp_unparsed)*10000)/10000
+    time_message+="Parsing... {} seconds\n".format(time_parsing)
     
     #Solving
     timestamp_unsolved=time.time()
@@ -51,10 +48,10 @@ def solve_and_display(path="sudoku.txt", display_speed = True):
     # Displaying
     time_message+="Solving... {} seconds\n".format(time_solving)
     print(S) # Solved!
-    if display_speed: print(time_message)
+    if display_speed:
+        print(time_message)
     print("Find the answer above or in the "+path+" file!")
 
-    return
 
 # Appel de la fonction
 if __name__ == '__main__':
@@ -63,7 +60,7 @@ if __name__ == '__main__':
             print("\n=== Reading file "+path+" ===")
             try:
                 solve_and_display(path)
-            except: 
+            except (FileNotFoundError, IOError): 
                 print("File doesn't exist or isn't a sudoku")
     else:
         print("No sudoku given")
