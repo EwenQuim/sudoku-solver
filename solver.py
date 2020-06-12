@@ -18,12 +18,12 @@ def liste_init(S):
 def nb_possible(S, i, j):
     if (i, j) in liste_init(S):
         return 0
-    else:
-        c = 0
-        for n in range(1, 10):
-            if is_available(S, i, j, n):
-                c += 1
-        return c
+    
+    c = 0
+    for n in range(1, 10):
+        if is_available(S, i, j, n):
+            c += 1
+    return c
 
 def tableau_possibilites(S):
     tab = np.array(S)
