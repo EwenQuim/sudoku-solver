@@ -8,6 +8,7 @@ import argparse
 import sys
 import time
 from parser import parse, pretty_print, unparse
+import argcomplete
 
 import numpy as np
 import rich.traceback
@@ -17,6 +18,9 @@ from solver import solve
 
 
 def solve_and_display(path="sudoku.txt", graph_display=False, iterate=False, fastest=False):
+    if fastest:
+        graph_display, iterate = False
+
     timestamp_unparsed=time.time()
 
     # Opening file
@@ -63,6 +67,7 @@ def solve_and_display(path="sudoku.txt", graph_display=False, iterate=False, fas
     # Pretty things
     if graph_display:
         print("Watch the figure of the solving evolution.")
+        print(meta)
         plt.plot([_ for _ in map(lambda x: max(meta)-x, meta)])
         plt.show()
 
@@ -71,10 +76,13 @@ def solve_and_display(path="sudoku.txt", graph_display=False, iterate=False, fas
 if __name__ == '__main__':
     rich.traceback.install()
 
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--iterate', type=bool, default=False)
-    parser.add_argument('--graph', type=bool, default=False)
-    parser.add_argument('--inputs', type=str, nargs="+")
+    parser = argparse.ArgumentParser(description='Solve your sudokus, quickly or with display!')
+    parser.add_argument('-i', '--iterate', action='store_true', help='Shows the 50th first iterations of the algorithm')
+    parser.add_argument('-g', '--graph', action='store_true', help='Shows the graph of the cases uncompleted')
+    parser.add_argument('-f', '--fastest', action='store_true', help='Runs as quick as possible, without graphs or stats')
+    parser.add_argument('inputs', nargs="+", help='Paths of your sudoku(s) !')
+
+    argcomplete.autocomplete(parser)
     
     args = parser.parse_args()
 
