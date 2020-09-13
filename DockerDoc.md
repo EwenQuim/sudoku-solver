@@ -14,15 +14,16 @@ You should:
 
 - put all the sudoku you want to solve in a folder `/data`
 - open a terminal
-- go to the `/data` parent folder (so you can see the /data folder by typing `ls`)
-- run the following command : `docker run --rm -v "$(pwd)/data:/mnt/data" feust/sudoku-solver:2.1 mon_sudoku.txt`
+- go to the `/data` folder 
+- run the following command : `docker run --rm -v "$(pwd):/mnt/data" feust/sudoku-solver:2.1 mon_sudoku.txt`
 
 If you have more skills and you want to use it a more convenient way, you can make [aliases](https://dev.ewen.quimerch.com/articles/2-linux-aliases.html) (BEWARE it depends on your computer and config):
   
 ```bash
-echo "alias solve="docker run --rm -v "$(pwd)/data:/mnt/data" feust/sudoku-solver:2.1"" >> ~/.bashrc
+echo alias solve=\"docker run --rm -v \'$(pwd):/mnt/data\' feust/sudoku-solver:2.1\" >> ~/.bashrc
 bash
-solve  <name_of_your_sudoku.txt> <name_of-sudoku2.txt>
+
+solve  <name_of_your_sudoku.txt> <name_of-sudoku2.txt> ...
 ```
 
 The results are displayed in your terminal AND in some files created on your /data folder :)

@@ -2,3 +2,9 @@ env/
 __pycache__/
 .vscode/
 **/*.pyc
+
+# Solved versions of sudokus
+**/*solved*
+
+# Future examples (but keeping some examples)
+data/

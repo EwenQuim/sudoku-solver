@@ -1,3 +1,7 @@
+import time
+from os import system
+from parser import pretty_print
+
 import numpy as np
 
 ################################
@@ -14,7 +18,7 @@ def liste_init(S):
                 l.append((i, j))
     return l
 
-
+# n° of solutions available for S at (i, j)
 def nb_possible(S, i, j):
     if (i, j) in liste_init(S):
         return 0
@@ -53,9 +57,10 @@ def tableau_ordre(S):
 # Check if possible to fill case (i, j) with n inside a block
 def is_in_bloc(S, i, j, n):
     for k in range(3*int(i/3), 3*int(i/3)+3):
-        for l in range(3*int(j/3), 3*int(j/3)+3):
-            if k != i and S[k][l]==n:
-                return False
+        if k != i:
+            for l in range(3*int(j/3), 3*int(j/3)+3):
+                if l != j and S[k][l]==n:
+                        return False
     return True
 
 # Check if possible to fill case (i, j) with n (lines + rows + block)
@@ -76,18 +81,36 @@ def assigne_valeur(S, i, j, mini):
     S[i][j] = 0
     return 0
             
-def solve(S):
+def solve(S, display_iterations=False, stats=True):
+    sudoku_initial = liste_init(S)
     tab_ordre = tableau_ordre(S)
-    nombre_a_changer = len(tab_ordre)
+    n_to_change = len(tab_ordre)
     tab_mini = S
-    rang = 0
-    valeur_remplacee = 1
-    while rang < nombre_a_changer:
-        (i, j) = tab_ordre[rang]
-        valeur_remplacee = assigne_valeur(S, i, j, tab_mini[i][j] +1) # assigne une valeur à la case (i, j) si possible et récupère la clé de l'op
-        if valeur_remplacee != 0: #on continue
-            rang += 1
+    rank = 0
+
+    # Display
+    ranks = []
+    iterate_display = 0
+
+    while rank < n_to_change:
+
+        # Computing
+        (i, j) = tab_ordre[rank]
+        replaced_value = assigne_valeur(S, i, j, tab_mini[i][j] +1) # assigne une valeur à la case (i, j) si possible et récupère la clé de l'op
+        if replaced_value != 0: #on continue
+            rank += 1
         else: #on recule
-            rang -= 1
-        tab_mini[i][j] = valeur_remplacee
-    return S
+            rank -= 1
+        tab_mini[i][j] = replaced_value
+
+        # Just displaying stuff
+        if display_iterations:
+            iterate_display += 1
+            if (iterate_display < 50):
+                pretty_print(S, changed=(i,j))
+                time.sleep(.3)
+                system('clear')
+        if stats:
+            ranks.append(rank)
+
+    return S, ranks, sudoku_initial
