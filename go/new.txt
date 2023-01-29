@@ -1,0 +1,20 @@
+?   	pkg.amethysts.studio/sudoku-solver-go	[no test files]
+goos: darwin
+goarch: arm64
+pkg: pkg.amethysts.studio/sudoku-solver-go/solver
+BenchmarkSolver-8             	    2427	    499889 ns/op	    2496 B/op	     116 allocs/op
+BenchmarkSolver-8             	    2377	    503662 ns/op	    2496 B/op	     116 allocs/op
+BenchmarkSolver-8             	    2395	    507397 ns/op	    2496 B/op	     116 allocs/op
+BenchmarkSolver-8             	    2336	    502827 ns/op	    2496 B/op	     116 allocs/op
+BenchmarkSolver-8             	    2389	    491991 ns/op	    2496 B/op	     116 allocs/op
+BenchmarkSolverHard-8         	      48	  23603483 ns/op	    2540 B/op	     119 allocs/op
+BenchmarkSolverHard-8         	      49	  23436759 ns/op	    2539 B/op	     119 allocs/op
+BenchmarkSolverHard-8         	      49	  23587441 ns/op	    2539 B/op	     119 allocs/op
+BenchmarkSolverHard-8         	      50	  23485236 ns/op	    2539 B/op	     119 allocs/op
+BenchmarkSolverHard-8         	      49	  23496764 ns/op	    2539 B/op	     119 allocs/op
+BenchmarkSolverImpossible-8   	       3	 471711778 ns/op	    2648 B/op	     125 allocs/op
+BenchmarkSolverImpossible-8   	       3	 467356472 ns/op	    2648 B/op	     125 allocs/op
+BenchmarkSolverImpossible-8   	       3	 469426667 ns/op	    2648 B/op	     125 allocs/op
+BenchmarkSolverImpossible-8   	       3	 467978000 ns/op	    2648 B/op	     125 allocs/op
+BenchmarkSolverImpossible-8   	       3	 467881667 ns/op	    2648 B/op	     125 allocs/op
+BenchmarkBegin-8              	
