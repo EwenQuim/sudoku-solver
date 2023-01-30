@@ -8,20 +8,32 @@ import (
 )
 
 func main() {
-	sudokus := PlugCLI()
+	sudokus, silent := PlugCLI()
+
+	if len(sudokus) == 0 {
+		fmt.Println("No sudoku file given")
+		return
+	}
+
+	if !silent {
+		fmt.Println("Solving", len(sudokus), "sudokus...")
+	}
 
 	// multiple sudokus can be given
 	for _, sudokuFile := range sudokus {
-		PrettyTitle(sudokuFile)
-
 		S := FileHandler(sudokuFile)
 
-		PrettyPrint(S)
+		if !silent {
+			PrettyTitle(sudokuFile)
+			PrettyPrint(S)
+		}
 
 		start := time.Now()
 		T, stats := solver.Solve(S)
-		fmt.Println("Solved in", time.Since(start), "with", stats.Tries, "iterations and", stats.GoingBack, "going back")
 
-		PrettyPrint(T)
+		if !silent {
+			fmt.Println("Solved in", time.Since(start), "with", stats.Tries, "iterations and", stats.GoingBack, "going back")
+			PrettyPrint(T)
+		}
 	}
 }

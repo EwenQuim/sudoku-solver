@@ -11,12 +11,16 @@ import (
 )
 
 // PlugCLI handles the Command Line Interface
-func PlugCLI() []string {
-
-	var profiling = flag.Bool(
+func PlugCLI() (sudokus []string, silent bool) {
+	profiling := flag.Bool(
 		"cpu",
 		false,
 		"Profiling CPU usage",
+	)
+	silentFlag := flag.Bool(
+		"silent",
+		false,
+		"Silent mode",
 	)
 	flag.Usage = func() {
 		color.Set(color.Bold)
@@ -27,7 +31,6 @@ func PlugCLI() []string {
 		flag.PrintDefaults()
 
 		fmt.Println("  args\n\tPath to a sudoku file. Can be a list of files or something like `data/*`")
-
 	}
 
 	flag.Parse()
@@ -36,7 +39,7 @@ func PlugCLI() []string {
 		defer profile.Start().Stop()
 	}
 
-	return flag.Args()
+	return flag.Args(), *silentFlag
 }
 
 // PrettyPrint prints matrix
