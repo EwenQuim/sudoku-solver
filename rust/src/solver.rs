@@ -7,7 +7,7 @@ fn digits_possible(s: [[u8; 9]; 9], i: usize, j: usize) -> Option<Vec<u8>> {
 
     let mut digits = Vec::new();
     for n in 1..10 {
-        if is_available(s, i, j, n) {
+        if is_available(&s, i, j, n) {
             digits.push(n);
         }
     }
@@ -19,12 +19,12 @@ fn digits_possible(s: [[u8; 9]; 9], i: usize, j: usize) -> Option<Vec<u8>> {
 fn matrix_possibilities(s: [[u8; 9]; 9]) -> [[Vec<u8>; 9]; 9] {
     let mut tab: [[Vec<u8>; 9]; 9] = Default::default();
 
-    for i in 0..9 {
-        for j in 0..9 {
+    for (i, line) in tab.iter_mut().enumerate() {
+        for (j, cell) in line.iter_mut().enumerate() {
             match digits_possible(s, i, j) {
                 Some(v) => {
                     if !v.is_empty() {
-                        tab[i][j] = v;
+                        *cell = v;
                     }
                 }
                 None => continue,
@@ -51,10 +51,10 @@ fn tableau_order(s: [[u8; 9]; 9]) -> Vec<Pos> {
     let possibilities = matrix_possibilities(s);
 
     let mut liste_scores = vec![];
-    for i in 0..9 {
-        for j in 0..9 {
-            let score = possibilities[i][j].len() as i32;
-            if score == 0 {
+    for (i, line) in possibilities.iter().enumerate() {
+        for (j, cell) in line.iter().enumerate() {
+            let score = cell.len() as i32;
+            if score <= 0 {
                 continue;
             }
             liste_scores.push(PosWithScores {
@@ -69,7 +69,7 @@ fn tableau_order(s: [[u8; 9]; 9]) -> Vec<Pos> {
 }
 
 // Used at each step, perf is important
-fn is_available_in_line(s: [[u8; 9]; 9], i: usize, j: usize, n: u8) -> bool {
+fn is_available_in_line(s: &[[u8; 9]; 9], i: usize, j: usize, n: u8) -> bool {
     for k in 0..9 {
         if (s[i][k] == n && k != j) || (s[k][j] == n && k != i) {
             return false;
@@ -79,7 +79,7 @@ fn is_available_in_line(s: [[u8; 9]; 9], i: usize, j: usize, n: u8) -> bool {
 }
 
 // Used at each step, perf is important
-fn is_available_in_bloc(s: [[u8; 9]; 9], i: usize, j: usize, n: u8) -> bool {
+fn is_available_in_bloc(s: &[[u8; 9]; 9], i: usize, j: usize, n: u8) -> bool {
     for (k, line) in s.iter().enumerate().skip((i / 3) * 3).take(3) {
         if k == i {
             continue;
@@ -95,7 +95,7 @@ fn is_available_in_bloc(s: [[u8; 9]; 9], i: usize, j: usize, n: u8) -> bool {
 }
 
 // Used at each step, perf is important
-fn is_available(s: [[u8; 9]; 9], i: usize, j: usize, n: u8) -> bool {
+fn is_available(s: &[[u8; 9]; 9], i: usize, j: usize, n: u8) -> bool {
     is_available_in_line(s, i, j, n) && is_available_in_bloc(s, i, j, n)
 }
 
@@ -128,7 +128,7 @@ pub fn solve(si: [[u8; 9]; 9]) -> ([[u8; 9]; 9], Stats) {
         if index_of_current_digit_for[i][j] < possibilities[i][j].len() {
             let client = possibilities[i][j][index_of_current_digit_for[i][j]];
 
-            if is_available(s, i, j, client) {
+            if is_available(&s, i, j, client) {
                 s[i][j] = client;
                 rank += 1;
             } else {
