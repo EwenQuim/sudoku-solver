@@ -26,3 +26,21 @@ func squareNeighbors(S *Board, i, j uint8) int {
 
 	return count
 }
+
+func countOnes(n uint16) int {
+	var count int
+	for n > 0 {
+		count++
+		n &= n - 1
+	}
+	return count
+}
+
+func nextCandidate(from uint8 /* 0 to 9 */, possibilities uint16) uint8 /* 1 to 9 */ {
+	for i := from + 1; i <= 9; i++ {
+		if possibilities&(1<<i) != 0 {
+			return i
+		}
+	}
+	return 0
+}

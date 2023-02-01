@@ -6,6 +6,24 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+func TestDigitsPossible(t *testing.T) {
+	toSolve := [9][9]uint8{
+		{0, 0, 0, 0, 0, 0, 1, 0, 0},
+		{3, 0, 1, 7, 9, 0, 0, 0, 0},
+		{0, 4, 0, 0, 0, 0, 0, 0, 7},
+		{0, 0, 5, 0, 0, 7, 3, 0, 0},
+		{7, 0, 0, 5, 0, 2, 0, 0, 0},
+		{0, 0, 8, 0, 1, 0, 2, 0, 0},
+		{6, 0, 7, 0, 0, 9, 0, 3, 0},
+		{0, 1, 0, 2, 0, 0, 0, 5, 0},
+		{0, 0, 9, 0, 0, 0, 0, 0, 8},
+	}
+
+	require.Equal(t, uint16(0b11_0010_0100), digitsPossible(&toSolve, 0, 0))
+	require.Equal(t, uint16(0), digitsPossible(&toSolve, 8, 8))
+	require.Equal(t, uint16(0b01_0101_1000), digitsPossible(&toSolve, 4, 4))
+}
+
 func TestSolve(t *testing.T) {
 	toSolve := [9][9]uint8{
 		{0, 0, 0, 0, 0, 0, 1, 0, 0},
@@ -95,7 +113,7 @@ func BenchmarkSolverImpossible(b *testing.B) {
 	require.NotEqual(b, solved, toSolve)
 }
 
-func begin(Si Board) ([9][9][]uint8, []pos) {
+func begin(Si Board) ([9][9]uint16, []pos) {
 	S := &Si
 	// Initialise possibilities, order and digit position
 	possibilities := matrixPossibilities(S)

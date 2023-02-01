@@ -7,23 +7,23 @@ import (
 // Board represents the sudoku board. uint8 allows a 2x faster processing (and we always have 0 <= 9 <= 255)
 type Board = [9][9]uint8
 
-func digitsPossible(S *Board, i uint8, j uint8) []uint8 {
+func digitsPossible(S *Board, i uint8, j uint8) uint16 {
 	if S[i][j] != 0 { // cell already set
-		return []uint8{}
+		return 0
 	}
 
-	digits := []uint8{}
+	var digits uint16
 	for n := uint8(1); n <= 9; n++ {
 		if isAvailable(S, i, j, n) {
-			digits = append(digits, n)
+			digits |= 1 << n
 		}
 	}
 
 	return digits
 }
 
-func matrixPossibilities(S *Board) [9][9][]uint8 {
-	tab := [9][9][]uint8{}
+func matrixPossibilities(S *Board) [9][9]uint16 {
+	tab := [9][9]uint16{}
 
 	for i := uint8(0); i < 9; i++ {
 		for j := uint8(0); j < 9; j++ {
@@ -50,10 +50,10 @@ func tableauOrder(S *Board) []pos {
 	listeScores := make([]posWithScores, 0, 81)
 	for i := uint8(0); i < 9; i++ {
 		for j := uint8(0); j < 9; j++ {
-			if len(tab[i][j]) > 0 {
+			if tab[i][j] != 0 {
 				listeScores = append(listeScores, posWithScores{
 					pos:   pos{i: i, j: j},
-					score: 100*len(tab[i][j]) - alignedNeighbors(S, i, j) - squareNeighbors(S, i, j),
+					score: 100*countOnes(tab[i][j]) - alignedNeighbors(S, i, j) - squareNeighbors(S, i, j),
 				})
 			}
 		}
@@ -118,7 +118,12 @@ func Solve(Si Board) (Board, stats) {
 	possibilities := matrixPossibilities(S)
 	sliceOrder := tableauOrder(S)
 	maxDigitToFind := uint8(len(sliceOrder))
-	var indexOfCurrentDigitFor [9][9]int
+	var currentCandidate [9][9]uint8
+	for i := uint8(0); i < 9; i++ {
+		for j := uint8(0); j < 9; j++ {
+			currentCandidate[i][j] = nextCandidate(0, possibilities[i][j])
+		}
+	}
 
 	// variables
 	var rank uint8
@@ -132,24 +137,23 @@ func Solve(Si Board) (Board, stats) {
 		i := n.i
 		j := n.j
 
-		if indexOfCurrentDigitFor[i][j] < len(possibilities[i][j]) {
+		if currentCandidate[i][j] != 0 {
 			// There is a digit in the list of possibilities to put here
-			client := possibilities[i][j][indexOfCurrentDigitFor[i][j]]
 
-			if isAvailable(S, i, j, client) {
+			if isAvailable(S, i, j, uint8(currentCandidate[i][j])) {
 				// digit available -> go forward to next cell
-				S[i][j] = client
+				S[i][j] = uint8(currentCandidate[i][j])
 				rank++
 			} else {
 				// digit already in line, col or 3x3 cell -> try higher digit for same cell
-				indexOfCurrentDigitFor[i][j]++
+				currentCandidate[i][j] = nextCandidate(currentCandidate[i][j], possibilities[i][j])
 			}
 		} else {
 			// there is no digit possible for this cell
 
 			// first 'reset' the cell state
 			S[i][j] = 0
-			indexOfCurrentDigitFor[i][j] = 0
+			currentCandidate[i][j] = nextCandidate(0, possibilities[i][j])
 
 			// then go back to previous cell
 			rank--
@@ -158,7 +162,7 @@ func Solve(Si Board) (Board, stats) {
 			i = n.i
 			j = n.j
 			// previous digit was available but we found it wasn't okay, so increase it
-			indexOfCurrentDigitFor[i][j]++
+			currentCandidate[i][j] = nextCandidate(currentCandidate[i][j], possibilities[i][j])
 		}
 
 	}
