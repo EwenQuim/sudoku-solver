@@ -1,13 +1,29 @@
+# Compilation
+compile-rust:
+	cd rust && cargo build --release
+
+compile-go:
+	cd go && go build .
+
+compile-all:
+	make compile-rust
+	make compile-go
+
+# Benchmarks
 bench-go:
-	cd go && go run . -silent ../data/sudoku_hardest.txt
+	./go/sudoku-solver-go -silent ./data/sudoku_hard.txt
 
 bench-rust:
-	cd rust && cargo run --release --quiet ../data/sudoku_hardest.txt
+	./rust/target/release/solver ./data/sudoku_hard.txt
 
 bench-python:
-	cd python && python3 main.py ../data/sudoku_hardest.txt
+	python3 ./python/main.py ./data/sudoku_hard.txt
 
-bench-all:
-	hyperfine --warmup 1 --export-markdown report.md 'make bench-go' 'make bench-rust' 'make bench-python'
+bench-all: compile-all
+	hyperfine --warmup 1 --export-markdown report.md --export-json report.json 'make bench-go' 'make bench-rust' 'make bench-python'
 
+bench-all-except-python: compile-all
+	hyperfine --warmup 1 --export-markdown report.md --export-json report.json 'make bench-go' 'make bench-rust'
 
+bar-chart:
+	python3 ./barchart.py --bins 100 -o bar_chart.png --type bar report.json || echo "Please \n- install python3, matplotlib, numpy \n- run a benchmark first with 'make bench-all'"

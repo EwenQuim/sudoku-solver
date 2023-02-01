@@ -11,27 +11,34 @@ The results are for a 9x9 Sudoku, with 3x3 blocks. The benchmark is run on a 202
 
 ### For an easy Sudoku
 
-| Command             |    Mean [ms] | Min [ms] | Max [ms] |    Relative |
-| :------------------ | -----------: | -------: | -------: | ----------: |
-| `make bench-go`     | 173.8 ± 11.2 |    164.1 |    204.5 | 1.79 ± 0.25 |
-| `make bench-rust`   |  97.3 ± 12.1 |     89.9 |    136.2 |        1.00 |
-| `make bench-python` | 439.3 ± 26.1 |    385.9 |    475.4 | 4.52 ± 0.62 |
+| Command             |    Mean [ms] | Min [ms] | Max [ms] |      Relative |
+| :------------------ | -----------: | -------: | -------: | ------------: |
+| `make bench-go`     |    7.7 ± 1.2 |      5.7 |     14.3 |   1.35 ± 0.28 |
+| `make bench-rust`   |    5.7 ± 0.8 |      4.8 |     10.8 |          1.00 |
+| `make bench-python` | 410.5 ± 12.2 |    392.0 |    429.8 | 72.12 ± 10.03 |
 
 ### For a hard Sudoku
 
-| Command             |     Mean [ms] | Min [ms] | Max [ms] |     Relative |
-| :------------------ | ------------: | -------: | -------: | -----------: |
-| `make bench-go`     |   212.1 ± 9.4 |    198.9 |    229.1 |         1.00 |
-| `make bench-rust`   |   317.7 ± 7.4 |    302.6 |    326.6 |  1.50 ± 0.07 |
-| `make bench-python` | 7177.4 ± 70.5 |   7103.8 |   7329.6 | 33.84 ± 1.53 |
+![Graph displaying the table below](bar_chart_all.png)
+
+![Graph displaying the table below, without Python that is too much of an outlier](bar_chart_except_python.png)
+
+
+| Command             |     Mean [ms] | Min [ms] | Max [ms] |       Relative |
+| :------------------ | ------------: | -------: | -------: | -------------: |
+| `make bench-go`     |    32.2 ± 1.2 |     30.5 |     36.8 |    1.42 ± 0.11 |
+| `make bench-rust`   |    22.6 ± 1.6 |     20.5 |     31.9 |           1.00 |
+| `make bench-python` | 7162.1 ± 69.2 |   7059.1 |   7305.0 | 316.46 ± 22.27 |
 
 ### For a very hard Sudoku, made especially against backtracking
 
 | Command             |         Mean [ms] | Min [ms] | Max [ms] |      Relative |
 | :------------------ | ----------------: | -------: | -------: | ------------: |
-| `make bench-go`     |       680.2 ± 4.5 |    671.4 |    687.2 |          1.00 |
-| `make bench-rust`   |   12738.4 ± 104.5 |  12621.5 |  12956.7 |  18.73 ± 0.20 |
+| `make bench-go`     |       485.7 ± 8.5 |    474.7 |    498.9 |          1.00 |
+| `make bench-rust`   |      1017.7 ± 7.6 |   1012.5 |   1035.6 |   2.10 ± 0.04 |
 | `make bench-python` | 439984.2 ± 2345.9 | 436827.3 | 443363.3 | 646.87 ± 5.53 |
+
+*Yes, the Python version takes 7 minutes to solve this Sudoku, while the other languages answer in a second.*
 
 ## Reproduce
 
@@ -58,7 +65,3 @@ As these are my `Hello World`s, the code is probably not idiomatic. I'm open to 
 > "The xxx implementation is not optimized for performance!"
 
 This is your language's fault, not mine: I would be happy to code a faster algorithm, but if the language doesn't make it easy, I'm not going to do it.
-
-> "But you include compilation time!"
-
-Yes, I do. If your language is slow compiling, too bad. Not biased in favor of Go at all. Also, I don't want to lose my time compiling the same thing over and over again.

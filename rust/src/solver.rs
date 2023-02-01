@@ -1,5 +1,3 @@
-use std::collections::HashMap;
-
 // Only used at init time, perf not important
 fn digits_possible(s: [[u8; 9]; 9], i: usize, j: usize) -> Option<Vec<u8>> {
     if s[i][j] != 0 {
@@ -18,15 +16,15 @@ fn digits_possible(s: [[u8; 9]; 9], i: usize, j: usize) -> Option<Vec<u8>> {
 }
 
 // Only used at init time, perf not important
-fn matrix_possibilities(s: [[u8; 9]; 9]) -> HashMap<String, Vec<u8>> {
-    let mut tab: HashMap<String, Vec<u8>> = HashMap::new();
+fn matrix_possibilities(s: [[u8; 9]; 9]) -> [[Vec<u8>; 9]; 9] {
+    let mut tab: [[Vec<u8>; 9]; 9] = Default::default();
 
     for i in 0..9 {
         for j in 0..9 {
             match digits_possible(s, i, j) {
                 Some(v) => {
-                    if v.len() != 0 {
-                        tab.insert(format!("{i}{j}"), v);
+                    if !v.is_empty() {
+                        tab[i][j] = v;
                     }
                 }
                 None => continue,
@@ -55,11 +53,7 @@ fn tableau_order(s: [[u8; 9]; 9]) -> Vec<Pos> {
     let mut liste_scores = vec![];
     for i in 0..9 {
         for j in 0..9 {
-            let key = format!("{i}{j}");
-            let score = match possibilities.get(&key) {
-                Some(v) => v.len() as i32,
-                _ => 0,
-            };
+            let score = possibilities[i][j].len() as i32;
             if score == 0 {
                 continue;
             }
@@ -130,12 +124,9 @@ pub fn solve(si: [[u8; 9]; 9]) -> ([[u8; 9]; 9], Stats) {
         let n = slice_order[rank];
         let i = n.i;
         let j = n.j;
-        let key = format!("{i}{j}");
 
-        let possibility = possibilities.get(&key).unwrap();
-
-        if index_of_current_digit_for[i][j] < possibility.len() {
-            let client = possibility[index_of_current_digit_for[i][j]];
+        if index_of_current_digit_for[i][j] < possibilities[i][j].len() {
+            let client = possibilities[i][j][index_of_current_digit_for[i][j]];
 
             if is_available(s, i, j, client) {
                 s[i][j] = client;
