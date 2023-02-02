@@ -53,7 +53,8 @@ fn tableau_order(s: [[u8; 9]; 9]) -> Vec<Pos> {
     let mut liste_scores = vec![];
     for (i, line) in possibilities.iter().enumerate() {
         for (j, cell) in line.iter().enumerate() {
-            let score = cell.len() as i32;
+            let score =
+                100 * cell.len() as i32 - aligned_neighbors(&s, i, j) - square_neighbors(&s, i, j);
             if score <= 0 {
                 continue;
             }
@@ -147,4 +148,33 @@ pub fn solve(si: [[u8; 9]; 9]) -> ([[u8; 9]; 9], Stats) {
     }
 
     (s, stats)
+}
+
+fn aligned_neighbors(s: &[[u8; 9]; 9], i: usize, j: usize) -> i32 {
+    let mut count = 0;
+    for k in 0..9 {
+        if j != k && s[i][k] != 0 {
+            count += 1;
+        }
+        if i != k && s[k][j] != 0 {
+            count += 1;
+        }
+    }
+
+    count
+}
+
+fn square_neighbors(s: &[[u8; 9]; 9], i: usize, j: usize) -> i32 {
+    let mut count = 0;
+    let i_start = (i / 3) * 3;
+    let j_start = (j / 3) * 3;
+    for (k, _) in s.iter().enumerate().skip(i_start).take(3) {
+        for l in j_start..j_start + 3 {
+            if s[k][l] != 0 && (k != i || l != j) {
+                count += 1;
+            }
+        }
+    }
+
+    count
 }

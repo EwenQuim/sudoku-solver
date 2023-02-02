@@ -11,11 +11,12 @@ The results are for a 9x9 Sudoku, with 3x3 blocks. The benchmark is run on a 202
 
 ### For an easy Sudoku
 
-| Command             |    Mean [ms] | Min [ms] | Max [ms] |      Relative |
-| :------------------ | -----------: | -------: | -------: | ------------: |
-| `make bench-go`     |    7.7 ± 1.2 |      5.7 |     14.3 |   1.35 ± 0.28 |
-| `make bench-rust`   |    5.7 ± 0.8 |      4.8 |     10.8 |          1.00 |
-| `make bench-python` | 410.5 ± 12.2 |    392.0 |    429.8 | 72.12 ± 10.03 |
+| Command             |    Mean [ms] | Min [ms] | Max [ms] |     Relative |
+| :------------------ | -----------: | -------: | -------: | -----------: |
+| `make bench-go`     |    7.3 ± 0.6 |      6.2 |      9.5 |  1.18 ± 0.17 |
+| `make bench-rust`   |    6.2 ± 0.7 |      5.2 |      9.2 |         1.00 |
+| `make bench-python` | 421.1 ± 15.4 |    406.0 |    453.1 | 67.95 ± 8.21 |
+
 
 ### For a hard Sudoku
 
@@ -26,17 +27,18 @@ The results are for a 9x9 Sudoku, with 3x3 blocks. The benchmark is run on a 202
 
 | Command             |     Mean [ms] | Min [ms] | Max [ms] |       Relative |
 | :------------------ | ------------: | -------: | -------: | -------------: |
-| `make bench-go`     |    32.2 ± 1.2 |     30.5 |     36.8 |    1.42 ± 0.11 |
-| `make bench-rust`   |    22.6 ± 1.6 |     20.5 |     31.9 |           1.00 |
-| `make bench-python` | 7162.1 ± 69.2 |   7059.1 |   7305.0 | 316.46 ± 22.27 |
+| `make bench-go`     |    32.8 ± 0.7 |     31.5 |     34.5 |    1.69 ± 0.08 |
+| `make bench-rust`   |    19.4 ± 0.9 |     18.1 |     22.7 |           1.00 |
+| `make bench-python` | 7127.5 ± 51.9 |   7039.1 |   7212.9 | 367.95 ± 17.07 |
+
 
 ### For a very hard Sudoku, made especially against backtracking
 
-| Command             |         Mean [ms] | Min [ms] | Max [ms] |      Relative |
-| :------------------ | ----------------: | -------: | -------: | ------------: |
-| `make bench-go`     |       485.7 ± 8.5 |    474.7 |    498.9 |          1.00 |
-| `make bench-rust`   |      1017.7 ± 7.6 |   1012.5 |   1035.6 |   2.10 ± 0.04 |
-| `make bench-python` | 439984.2 ± 2345.9 | 436827.3 | 443363.3 | 646.87 ± 5.53 |
+| Command             |         Mean [ms] | Min [ms] | Max [ms] |        Relative |
+| :------------------ | ----------------: | -------: | -------: | --------------: |
+| `make bench-go`     |       507.8 ± 3.3 |    503.7 |    513.2 |     1.91 ± 0.02 |
+| `make bench-rust`   |       266.4 ± 2.1 |    263.8 |    270.3 |            1.00 |
+| `make bench-python` | 439142.3 ± 4526.4 | 435062.2 | 448740.0 | 1648.47 ± 21.52 |
 
 *Yes, the Python version takes 7 minutes to solve this Sudoku, while the other languages answer in a second.*
 
