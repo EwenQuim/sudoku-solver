@@ -68,7 +68,7 @@ func BenchmarkSolver(b *testing.B) {
 		{0, 0, 9, 0, 0, 0, 0, 0, 8},
 	}
 
-	for i := 0; i < b.N; i++ {
+	for b.Loop() {
 		_, _ = Solve(toSolve)
 	}
 }
@@ -87,7 +87,7 @@ func BenchmarkSolverHard(b *testing.B) {
 	}
 
 	var solved [9][9]uint8
-	for i := 0; i < b.N; i++ {
+	for b.Loop() {
 		solved, _ = Solve(toSolve)
 	}
 	require.NotEqual(b, solved, toSolve)
@@ -107,8 +107,48 @@ func BenchmarkSolverImpossible(b *testing.B) {
 	}
 
 	var solved [9][9]uint8
-	for i := 0; i < b.N; i++ {
+	for b.Loop() {
 		solved, _ = Solve(toSolve)
+	}
+	require.NotEqual(b, solved, toSolve)
+}
+
+func BenchmarkSolverParallelHard(b *testing.B) {
+	toSolve := [9][9]uint8{
+		{1, 0, 0, 0, 0, 7, 0, 9, 0},
+		{0, 3, 0, 0, 2, 0, 0, 0, 8},
+		{0, 0, 9, 6, 0, 0, 5, 0, 0},
+		{0, 0, 5, 3, 0, 0, 9, 0, 0},
+		{0, 1, 0, 0, 8, 0, 0, 0, 2},
+		{6, 0, 0, 0, 0, 4, 0, 0, 0},
+		{3, 0, 0, 0, 0, 0, 0, 1, 0},
+		{0, 4, 1, 0, 0, 0, 0, 0, 7},
+		{0, 0, 7, 0, 0, 0, 3, 0, 0},
+	}
+
+	var solved [9][9]uint8
+	for b.Loop() {
+		solved, _ = SolveParallel(toSolve)
+	}
+	require.NotEqual(b, solved, toSolve)
+}
+
+func BenchmarkSolverParallelImpossible(b *testing.B) {
+	toSolve := [9][9]uint8{
+		{8, 0, 0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 3, 6, 0, 0, 0, 0, 0},
+		{0, 7, 0, 0, 9, 0, 2, 0, 0},
+		{0, 5, 0, 0, 0, 7, 0, 0, 0},
+		{0, 0, 0, 0, 4, 5, 7, 0, 0},
+		{0, 0, 0, 1, 0, 0, 0, 3, 0},
+		{0, 0, 1, 0, 0, 0, 0, 6, 8},
+		{0, 0, 8, 5, 0, 0, 0, 1, 0},
+		{0, 9, 0, 0, 0, 0, 4, 0, 0},
+	}
+
+	var solved [9][9]uint8
+	for b.Loop() {
+		solved, _ = SolveParallel(toSolve)
 	}
 	require.NotEqual(b, solved, toSolve)
 }

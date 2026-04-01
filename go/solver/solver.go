@@ -158,6 +158,9 @@ func Solve(Si Board) (Board, stats) {
 			// then go back to previous cell
 			rank--
 			stats.GoingBack++
+			if rank >= maxDigitToFind { // uint8 underflowed from 0: no solution
+				break
+			}
 			n = sliceOrder[rank]
 			i = n.i
 			j = n.j

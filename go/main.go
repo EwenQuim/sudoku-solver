@@ -29,7 +29,7 @@ func main() {
 		}
 
 		start := time.Now()
-		T, stats := solver.Solve(S)
+		T, stats := solver.SolveParallel(S)
 
 		if !silent {
 			fmt.Println("Solved in", time.Since(start), "with", stats.Tries, "iterations and", stats.GoingBack, "going back")
