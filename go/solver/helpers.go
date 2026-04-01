@@ -1,5 +1,7 @@
 package solver
 
+import "math/bits"
+
 func alignedNeighbors(S *Board, i, j uint8) int {
 	count := 0
 	for k := range uint8(9) {
@@ -28,12 +30,7 @@ func squareNeighbors(S *Board, i, j uint8) int {
 }
 
 func countOnes(n uint16) int {
-	var count int
-	for n > 0 {
-		count++
-		n &= n - 1
-	}
-	return count
+	return bits.OnesCount16(n)
 }
 
 func nextCandidate(from uint8 /* 0 to 9 */, possibilities uint16) uint8 /* 1 to 9 */ {
