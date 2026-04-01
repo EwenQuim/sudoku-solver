@@ -44,7 +44,7 @@ func PlugCLI() (sudokus []string, silent bool) {
 
 // PrettyPrint prints matrix
 func PrettyPrint(S solver.Board) {
-	for i := 0; i < 9; i++ {
+	for i := range 9 {
 		fmt.Println(S[i])
 	}
 	fmt.Println()

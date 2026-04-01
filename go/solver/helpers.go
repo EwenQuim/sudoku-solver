@@ -2,7 +2,7 @@ package solver
 
 func alignedNeighbors(S *Board, i, j uint8) int {
 	count := 0
-	for k := uint8(0); k < 9; k++ {
+	for k := range uint8(9) {
 		if j != k && S[i][k] != 0 {
 			count++
 		}

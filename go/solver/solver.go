@@ -25,8 +25,8 @@ func digitsPossible(S *Board, i uint8, j uint8) uint16 {
 func matrixPossibilities(S *Board) [9][9]uint16 {
 	tab := [9][9]uint16{}
 
-	for i := uint8(0); i < 9; i++ {
-		for j := uint8(0); j < 9; j++ {
+	for i := range uint8(9) {
+		for j := range uint8(9) {
 			tab[i][j] = digitsPossible(S, i, j)
 		}
 	}
@@ -48,8 +48,8 @@ func tableauOrder(S *Board) []pos {
 
 	// compute scores
 	listeScores := make([]posWithScores, 0, 81)
-	for i := uint8(0); i < 9; i++ {
-		for j := uint8(0); j < 9; j++ {
+	for i := range uint8(9) {
+		for j := range uint8(9) {
 			if tab[i][j] != 0 {
 				listeScores = append(listeScores, posWithScores{
 					pos:   pos{i: i, j: j},
@@ -90,7 +90,7 @@ func isAvailableInBloc(S *Board, i uint8, j uint8, n uint8) bool {
 }
 
 func isAvailableInLine(S *Board, i uint8, j uint8, n uint8) bool {
-	for k := uint8(0); k < 9; k++ {
+	for k := range uint8(9) {
 		if (S[i][k] == n && k != j) || (S[k][j] == n && k != i) {
 			return false
 		}
@@ -119,8 +119,8 @@ func Solve(Si Board) (Board, stats) {
 	sliceOrder := tableauOrder(S)
 	maxDigitToFind := uint8(len(sliceOrder))
 	var currentCandidate [9][9]uint8
-	for i := uint8(0); i < 9; i++ {
-		for j := uint8(0); j < 9; j++ {
+	for i := range uint8(9) {
+		for j := range uint8(9) {
 			currentCandidate[i][j] = nextCandidate(0, possibilities[i][j])
 		}
 	}
